@@ -1,0 +1,51 @@
+{% extends "user/layout_user.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card shadow p-4">
+        <h3 class="mb-4 text-center">📊 सबै Attendance Records</h3>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover text-center align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th>ID</th>
+                        <th>Student ID</th>
+                        <th>Student Name</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Subject ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if records %}
+                        {% for r in records %}
+                            <tr>
+                                <td>{{ r.id }}</td>
+                                <td>{{ r.student_id }}</td>
+                                <td>{{ r.student_name if r.student_name else 'N/A' }}</td>
+                                <td>{{ r.date }}</td>
+                                <td>
+                                    <span class="badge {% if r.status.lower() == 'present' %}bg-success{% else %}bg-danger{% endif %}">
+                                        {{ r.status }}
+                                    </span>
+                                </td>
+                                <td>{{ r.subject_id if r.subject_id else 'N/A' }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">कुनै attendance उपलब्ध छैन</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('user_home') }}" class="btn btn-primary">⬅Home</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

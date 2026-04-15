@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Enquiries</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+
+<h3>Search Enquiries</h3>
+
+<form method="GET" action="{{ url_for('search') }}" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="search" class="form-control"
+               placeholder="Search by name, email, phone, course"
+               value="{{ search_query }}">
+        <button class="btn btn-primary">🔍 Search</button>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">⬅ Dashboard</a>
+    </div>
+</form>
+
+{% if enquiries %}
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Course</th>
+            <th>Message</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in enquiries %}
+        <tr>
+            <td>{{ e.name }}</td>
+            <td>{{ e.email }}</td>
+            <td>{{ e.phone }}</td>
+            <td>{{ e.course }}</td>
+            <td>{{ e.message }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="alert alert-warning">
+    No records found!
+</div>
+{% endif %}
+
+</body>
+</html>

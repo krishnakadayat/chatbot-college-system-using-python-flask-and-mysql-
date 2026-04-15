@@ -1,0 +1,11 @@
+{% extends "user/layout_user.html" %}
+{% block content %}
+
+<h3>📚 Courses</h3>
+<ul class="list-group">
+{% for c in courses %}
+<li class="list-group-item">{{ c }}</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

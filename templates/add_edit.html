@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<br><br>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4>{{ action }} students</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label>Student Name</label>
+                        <input type="text" name="name" class="form-control" value="{{ students.name if students else '' }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input type="email" name="email" class="form-control" value="{{ students.email if students else '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label>Phone Number</label>
+                        <input type="text" name="phone" class="form-control" value="{{ students.phone if students else '' }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Interested Course</label>
+                        <select name="course" class="form-select">
+                            <option value="BIM" {% if enquiry and students.course == 'BIM' %}selected{% endif %}>BIM</option>
+                            <option value="BCA" {% if students and students.course == 'BCA' %}selected{% endif %}>BCA</option>
+                            <option value="CSIT" {% if students and students.course == 'CSIT' %}selected{% endif %}>CSIT</option>
+                            <option value="BBM" {% if students and students.course == 'BBM' %}selected{% endif %}>BBM</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label>Message/Query</label>
+                        <textarea name="message" class="form-control" rows="3">{{ students.message if students else '' }}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">{{ action }} Details</button>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary w-100 mt-2">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

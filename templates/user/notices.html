@@ -1,0 +1,18 @@
+{% extends "user/layout_user.html" %}
+{% block content %}
+
+<h3 class="mb-3">📢 College Notices</h3>
+
+<div class="list-group">
+  {% for n in notices %}
+    <div class="list-group-item shadow-sm mb-2">
+      <h6 class="fw-bold">{{ n.title }}</h6>
+      <p class="mb-1">{{ n.message }}</p>
+      <small class="text-muted">📅 {{ n.date }}</small>
+    </div>
+  {% else %}
+    <p class="text-muted">No notices available.</p>
+  {% endfor %}
+</div>
+
+{% endblock %}

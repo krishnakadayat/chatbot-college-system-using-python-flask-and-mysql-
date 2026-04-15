@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Add Result</h2>
+    <form method="POST" action="">
+        <div class="mb-3">
+            <label for="student_id" class="form-label">Student ID</label>
+            <input type="number" class="form-control" name="student_id" required>
+        </div>
+        <div class="mb-3">
+            <label for="subject" class="form-label">Subject</label>
+            <input type="text" class="form-control" name="subject" required>
+        </div>
+        <div class="mb-3">
+            <label for="marks" class="form-label">Marks</label>
+            <input type="number" class="form-control" name="marks" min="0" max="100" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Result</button>
+    </form>
+</div>
+{% endblock %}

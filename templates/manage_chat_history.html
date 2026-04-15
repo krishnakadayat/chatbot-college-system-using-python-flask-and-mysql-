@@ -1,0 +1,103 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="fw-bold">💬 Manage Chat History</h3>
+
+        <a href="{{ url_for('download_chat_history',
+                username=request.args.get('username'),
+                date=request.args.get('date')) }}"
+           class="btn btn-success btn-sm">
+            ⬇ Download
+        </a>
+    </div>
+
+    <!-- Search Section -->
+    <div class="card shadow-sm mb-3">
+        <div class="card-body">
+            <form method="GET" class="row g-3">
+
+                <div class="col-md-4">
+                    <input type="text"
+                           name="username"
+                           class="form-control"
+                           placeholder="Search by username"
+                           value="{{ request.args.get('username','') }}">
+                </div>
+
+                <div class="col-md-3">
+                    <input type="date"
+                           name="date"
+                           class="form-control"
+                           value="{{ request.args.get('date','') }}">
+                </div>
+
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary">
+                        🔍 Search
+                    </button>
+
+                    <a href="{{ url_for('manage_chat_history') }}"
+                       class="btn btn-secondary">
+                        Reset
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle mb-0">
+
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th>#</th>
+                        <th>User</th>
+                        <th>User Message</th>
+                        <th>Bot Reply</th>
+                        <th>Date & Time</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for chat in chats %}
+                    <tr>
+                        <td class="text-center">{{ loop.index }}</td>
+
+                        <td class="text-center">
+                            <span class="badge bg-primary">
+                                {{ chat.username }}
+                            </span>
+                        </td>
+
+                        <td>{{ chat.user_message }}</td>
+                        <td>{{ chat.bot_reply }}</td>
+
+                        <td class="text-center">
+                            <small class="text-muted">
+                                {{ chat.created_at }}
+                            </small>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">
+                            No chat history found.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

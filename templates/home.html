@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Enquiry System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Full-screen background */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url('fwu.png'); /* Ensure correct path */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        nav a {
+            color: white !important;
+            font-weight: 500;
+        }
+
+        /* Overlay container for home content */
+        .overlay {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            background-color: rgba(0,0,0,0.4); /* Slight dark overlay */
+            padding: 2rem;
+        }
+
+        /* Buttons */
+        .btn-custom {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            margin: 10px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: rgba(0,0,0,0.6);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        /* Responsive Card Section */
+        .features .card {
+            background-color: rgba(255,255,255,0.9);
+            color: #333;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+        .features .card:hover {
+            transform: translateY(-10px);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">College Enquiry</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('register') }}">Register</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="overlay">
+    <div>
+        <h1 class="display-4 fw-bold">Welcome to Far Western College Enquiry System</h1>
+        <p class="lead">Manage your registrations, enquiries, and explore our courses easily.</p>
+        <div>
+            <a href="{{ url_for('register') }}" class="btn btn-custom">Register Now</a>
+            <a href="{{ url_for('login') }}" class="btn btn-custom">Login</a>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="container my-5 features">
+    <div class="row text-center g-4">
+        <div class="col-md-4">
+            <div class="card p-4">
+                <i class="fas fa-user-graduate fa-3x mb-3 text-primary"></i>
+                <h5>Student Registration</h5>
+                <p>Easily register students and manage their profiles securely.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-4">
+                <i class="fas fa-envelope fa-3x mb-3 text-success"></i>
+                <h5>Enquiry Management</h5>
+                <p>Track enquiries, respond to students, and manage communications.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-4">
+                <i class="fas fa-file-alt fa-3x mb-3 text-warning"></i>
+                <h5>Reports & Analytics</h5>
+                <p>Generate reports for registrations, fees, and student activities.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    &copy; 2026 College Enquiry System. All rights reserved.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

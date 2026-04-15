@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Result Analytics</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Total Results: {{ total }}</li>
+        <li class="list-group-item">Passed: {{ passed }}</li>
+        <li class="list-group-item">Pass Percentage: {{ pass_percent }}%</li>
+    </ul>
+    <a href="{{ url_for('view_results') }}" class="btn btn-primary mt-3">Back to Results</a>
+</div>
+{% endblock %}

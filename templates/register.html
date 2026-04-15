@@ -1,0 +1,59 @@
+{% extends "auth_layout.html" %}
+{% block content %}
+
+<div class="card shadow-lg p-4 bg-white rounded-4 position-relative" style="width: 100%; max-width: 420px;">
+
+    <!-- ❌ Cancel Button -->
+    <a href="{{ url_for('login') }}" 
+       class="btn-close position-absolute top-0 end-0 m-3" 
+       aria-label="Close">
+    </a>
+
+    <h3 class="text-center mb-4 text-primary fw-bold">Register Now</h3>
+
+    <form method="POST">
+
+        <div class="mb-3">
+            <label class="form-label">Student Name</label>
+            <input type="text" name="username" 
+                   class="form-control"
+                   value="{{ enquiry.username if enquiry else '' }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" 
+                   class="form-control"
+                   value="{{ enquiry.email if enquiry else '' }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" name="password" 
+                   class="form-control"
+                   value="{{ enquiry.password if enquiry else '' }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">
+            Register
+        </button>
+
+        <p class="text-center mt-3">
+            Already registered?
+            <a href="{{ url_for('login') }}" class="fw-bold text-primary">
+                Login
+            </a>
+        </p>
+
+    </form>
+</div>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <script>
+      alert("{{ messages[0] }}");
+    </script>
+  {% endif %}
+{% endwith %}
+
+{% endblock %}

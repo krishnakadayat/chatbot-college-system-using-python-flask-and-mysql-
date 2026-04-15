@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>📄 Exam Results</h3>
+
+        <!-- ➕ Add Result Button -->
+        <a href="{{ url_for('add_result_route') }}" class="btn btn-success">
+            ➕ Add Result
+        </a>
+    </div>
+
+    {% if results %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Roll No</th>
+                    <th>Student Name</th>
+                    <th>Subject</th>
+                    <th>Marks</th>
+                    <th>Grade</th>
+                    <th>GPA</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for r in results %}
+                <tr>
+                    <td>{{ r.roll_no }}</td>
+                    <td>{{ r.name }}</td>
+                    <td>{{ r.subject }}</td>
+                    <td>
+                        <span class="badge bg-info">
+                            {{ r.marks }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if r.grade == 'F' %}
+                            <span class="badge bg-danger">{{ r.grade }}</span>
+                        {% else %}
+                            <span class="badge bg-success">{{ r.grade }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ r.gpa }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <div class="alert alert-warning text-center">
+            ⚠️ No results available or not published yet.
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

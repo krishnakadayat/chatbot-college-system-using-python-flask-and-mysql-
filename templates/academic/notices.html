@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <!-- Header + Add Button -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>📢 College Notices</h3>
+
+        {% if session.get('loggedin') %}
+        <a href="{{ url_for('add_notice') }}" class="btn btn-success">
+            ➕ Add Notice
+        </a>
+        {% endif %}
+    </div>
+
+    {% if notices %}
+        {% for n in notices %}
+        <div class="card mb-3 shadow-sm
+            {% if n.priority == 'Urgent' %} border-danger
+            {% elif n.priority == 'Important' %} border-warning
+            {% endif %}">
+            
+            <div class="card-body">
+
+                <h5 class="card-title">
+                    {{ n.title }}
+
+                    {% if n.priority == 'Urgent' %}
+                        <span class="badge bg-danger ms-2">Urgent</span>
+                    {% elif n.priority == 'Important' %}
+                        <span class="badge bg-warning text-dark ms-2">Important</span>
+                    {% else %}
+                        <span class="badge bg-secondary ms-2">Normal</span>
+                    {% endif %}
+                </h5>
+
+                <p class="card-text">
+                    {{ n.message }}
+                </p>
+
+                <div class="d-flex justify-content-between">
+                    <small class="text-muted">
+                        📂 {{ n.category }} | 📅 {{ n.created_at }}
+                    </small>
+
+                    {% if session.get('loggedin') %}
+                    <div>
+                        <a href="{{ url_for('edit_notice', id=n.id) }}"
+                           class="btn btn-sm btn-warning">Edit</a>
+
+                        <a href="{{ url_for('delete_notice', id=n.id) }}"
+                           class="btn btn-sm btn-danger"
+                           onclick="return confirm('Delete this notice?')">
+                           Delete
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info text-center">
+            📭 No notices available at the moment.
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

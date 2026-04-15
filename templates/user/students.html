@@ -1,0 +1,35 @@
+{% extends "user/layout_user.html" %}
+{% block content %}
+
+<h3>👥 Student Records</h3>
+<p class="text-muted">Total Students: <b>{{ total_students }}</b></p>
+
+<table class="table table-bordered table-hover">
+    <tr class="table-dark">
+        <th>#</th>
+        <th>Roll No</th>
+        <th>Name</th>
+        <th>Course</th>
+        <th>Semester</th>
+        <th>Email</th>
+    </tr>
+
+    {% for s in students %}
+    <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ s.roll_no }}</td>
+        <td>{{ s.name }}</td>
+        <td>{{ s.course }}</td>
+        <td>{{ s.semester }}</td>
+        <td>{{ s.email }}</td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="6" class="text-center text-muted">
+            No student records found
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

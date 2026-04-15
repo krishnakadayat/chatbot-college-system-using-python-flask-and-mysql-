@@ -1,0 +1,19 @@
+body {
+    background: #f4f6f9;
+}
+
+.user-card {
+    padding: 20px;
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+}
+
+.user-card:hover {
+    transform: translateY(-5px);
+}
+
+h5 {
+    font-weight: 600;
+}

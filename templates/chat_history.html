@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <!-- Page Title -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h3 class="fw-bold">💬 Chatbot Conversation History</h3>
+            <p class="text-muted mb-0">
+                This page shows all user–chatbot conversations for analysis.
+            </p>
+        </div>
+        <span class="badge bg-dark fs-6">
+            Total: {{ chats|length }}
+        </span>
+    </div>
+
+    <!-- Table -->
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle mb-0">
+
+                    <thead class="table-dark text-center">
+                        <tr>
+                            <th style="width: 5%;">#</th>
+                            <th style="width: 15%;">User</th>
+                            <th style="width: 30%;">User Message</th>
+                            <th style="width: 30%;">Bot Reply</th>
+                            <th style="width: 20%;">Date & Time</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for chat in chats %}
+                        <tr>
+                            <td class="text-center">{{ loop.index }}</td>
+
+                            <td class="text-center">
+                                <span class="badge bg-primary">
+                                    {{ chat.username }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <div style="max-height: 120px; overflow-y: auto;">
+                                    {{ chat.user_message }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <div style="max-height: 120px; overflow-y: auto;">
+                                    {{ chat.bot_reply }}
+                                </div>
+                            </td>
+
+                            <td class="text-center">
+                                <small class="text-muted">
+                                    {{ chat.created_at }}
+                                </small>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-4">
+                                No chat history found.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <a href="{{ url_for('chatbot') }}" class="btn btn-secondary mt-3">
+        ⬅ Back to Chatbot
+    </a>
+
+</div>
+
+{% endblock %}

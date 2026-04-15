@@ -1,0 +1,48 @@
+{% extends "user/layout_user.html" %}
+{% block content %}
+
+<h3 class="mb-4">📄 Exam Results</h3>
+
+<table class="table table-bordered table-hover shadow bg-white">
+    <thead class="table-primary">
+        <tr>
+            <th>Subject</th>
+            <th>Marks</th>
+            <th>Grade</th>
+            <th>GPA</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% set total_gpa = 0 %}
+    {% for r in results %}
+        {% set total_gpa = total_gpa + r.gpa %}
+        <tr>
+            <td>{{ r.subject }}</td>
+            <td>{{ r.marks }}</td>
+            <td><span class="badge bg-info">{{ r.grade }}</span></td>
+            <td>{{ r.gpa }}</td>
+            <td>
+                <span class="badge bg-{{ 'success' if r.status=='Pass' else 'danger' }}">
+                    {{ r.status }}
+                </span>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5" class="text-center text-muted">
+                No results available
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% if results %}
+<div class="text-end fw-bold">
+    🎓 Overall GPA: {{ (total_gpa / results|length) | round(2) }}
+</div>
+{% endif %}
+
+{% endblock %}

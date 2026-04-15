@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>All Results</h2>
+    <a href="{{ url_for('add_result_route') }}" class="btn btn-success mb-3">Add Result</a>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Student Name</th>
+                <th>Roll No</th>
+                <th>Subject</th>
+                <th>Marks</th>
+                <th>Grade</th>
+                <th>GPA</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in results %}
+            <tr>
+                <td>{{ r.id }}</td>
+                <td>{{ r.name }}</td>
+                <td>{{ r.roll_no }}</td>
+                <td>{{ r.subject }}</td>
+                <td>{{ r.marks }}</td>
+                <td>{{ r.grade }}</td>
+                <td>{{ r.gpa }}</td>
+                <td>{{ r.status or 'Pending' }}</td>
+                <td>
+                    <a href="{{ url_for('publish_result_route', id=r.id) }}" class="btn btn-primary btn-sm">Publish</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

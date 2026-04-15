@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <h3>✏️ Edit Fee</h3>
+    <hr>
+
+    <form method="POST" class="card p-4 shadow-sm">
+
+        <div class="mb-3">
+            <label class="form-label">Roll Number</label>
+            <input type="text" class="form-control" value="{{ fee.roll_no }}" disabled>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Student Name</label>
+            <input type="text" class="form-control" value="{{ fee.name }}" disabled>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Course</label>
+            <input type="text" class="form-control" value="{{ fee.course }}" disabled>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Semester</label>
+            <input type="text" class="form-control" value="{{ fee.semester }}" disabled>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Amount</label>
+            <input type="number" name="amount" value="{{ fee.amount }}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select name="status" class="form-select">
+                <option value="Paid" {% if fee.status=='Paid' %}selected{% endif %}>Paid</option>
+                <option value="Pending" {% if fee.status=='Pending' %}selected{% endif %}>Pending</option>
+            </select>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-warning">💾 Update</button>
+            <a href="{{ url_for('fees') }}" class="btn btn-secondary">❌ Cancel</a>
+        </div>
+
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+<br><br>
+<h3>📚 Course Management</h3>
+
+<table class="table table-bordered">
+<tr>
+    <th>Course Name</th>
+    <th>Duration</th>
+    <th>Total Semesters</th>
+</tr>
+
+{% for c in coursess %}
+<tr>
+    <td>{{ c.name }}</td>
+    <td>{{ c.duration }}</td>
+    <td>{{ c.semesters }}</td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

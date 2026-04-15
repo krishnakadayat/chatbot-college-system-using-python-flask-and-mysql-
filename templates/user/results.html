@@ -1,0 +1,67 @@
+{% extends "user/layout_user.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card shadow p-4">
+        <h3 class="mb-4 text-center">📄 All Students Exam Results</h3>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle text-center">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Student Name</th>
+                        <th>Subject</th>
+                        <th>Marks</th>
+                        <th>Grade</th>
+                        <th>GPA</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% set total_gpa = 0 %}
+                    {% for row in results %}
+                        {% set total_gpa = total_gpa + row.gpa | float %}
+                        <tr>
+                            <td>{{ row.student_id }}</td>
+                            <td>{{ row.student_name }}</td>
+                            <td>{{ row.subject }}</td>
+                            <td>{{ row.marks }}</td>
+                            <td><span class="badge bg-info">{{ row.grade }}</span></td>
+                            <td>{{ row.gpa }}</td>
+                            <td>
+                                <span class="badge 
+                                    {% if row.status.lower() in ['pass', 'published'] %}
+                                        bg-success
+                                    {% else %}
+                                        bg-danger
+                                    {% endif %}">
+                                    {{ row.status }}
+                                </span>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">
+                                कुनै परिणाम उपलब्ध छैन
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if results %}
+        <div class="text-end fw-bold mt-3">
+            🎓 Overall GPA: {{ (total_gpa / results|length) | round(2) }}
+        </div>
+        {% endif %}
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('user_home') }}" class="btn btn-primary">⬅ Back to home</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

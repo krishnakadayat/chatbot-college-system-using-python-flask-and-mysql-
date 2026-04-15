@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-4">
+<h3>➕ Add Notice</h3><hr>
+
+<form method="POST">
+    <input name="title" class="form-control mb-2" placeholder="Title" required>
+    <textarea name="message" class="form-control mb-2" placeholder="Notice Message" required></textarea>
+
+    <select name="category" class="form-control mb-2">
+        <option>Exam</option>
+        <option>Admission</option>
+        <option>Holiday</option>
+        <option>General</option>
+    </select>
+
+    <select name="priority" class="form-control mb-3">
+        <option>Normal</option>
+        <option>Important</option>
+        <option>Urgent</option>
+    </select>
+
+    <button class="btn btn-success">Save Notice</button>
+</form>
+</div>
+{% endblock %}

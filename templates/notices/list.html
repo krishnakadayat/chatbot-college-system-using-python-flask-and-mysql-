@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-4">
+<h3>📢 Notices</h3><hr>
+
+<a href="{{ url_for('add_notice') }}" class="btn btn-success mb-3">➕ Add Notice</a>
+
+<table class="table table-bordered">
+<tr class="table-dark">
+    <th>Title</th><th>Category</th><th>Priority</th><th>Status</th><th>Action</th>
+</tr>
+
+{% for n in notices %}
+<tr>
+<td>{{ n.title }}</td>
+<td>{{ n.category }}</td>
+<td>
+{% if n.priority == 'Urgent' %}
+<span class="badge bg-danger">Urgent</span>
+{% elif n.priority == 'Important' %}
+<span class="badge bg-warning">Important</span>
+{% else %}
+<span class="badge bg-secondary">Normal</span>
+{% endif %}
+</td>
+<td>{{ n.status }}</td>
+<td>
+<a href="{{ url_for('publish_notice', id=n.id) }}" class="btn btn-sm btn-primary">Publish</a>
+<a href="{{ url_for('edit_notice', id=n.id) }}" class="btn btn-sm btn-warning">Edit</a>
+<a href="{{ url_for('delete_notice', id=n.id) }}" class="btn btn-sm btn-danger">Delete</a>
+</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+{% endblock %}
