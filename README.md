@@ -48,6 +48,10 @@ It behaves like a real assistant instead of a basic FAQ bot.
 - ✅ Error handling and fallback system  
 
 🔥 NLP TECH STACK USED
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('punkt_tab')
 NLTK (tokenization, stopwords)
 SpellChecker (text correction)
 SentenceTransformers (semantic understanding)
