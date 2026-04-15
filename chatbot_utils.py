@@ -43,10 +43,7 @@ def split_questions(text: str):
         if len(p) > 2:
             cleaned.append(p)
 
-    if not cleaned:
-        return [text]
-
-    return cleaned
+    return cleaned if cleaned else [text]
 
 # ------------------- TEXT CORRECTION -------------------
 def correct_text(text: str) -> str:
@@ -94,45 +91,54 @@ def load_qa():
 # ------------------- INITIALIZE -------------------
 QUESTIONS, ANSWERS = load_qa()
 
-# ------------------- MODEL -------------------
-model = SentenceTransformer('all-MiniLM-L6-v2')
-
+# ------------------- MODEL (lazy load fix) -------------------
+model = None
 question_embeddings = None
 
-if QUESTIONS:
-    question_embeddings = model.encode(
-        QUESTIONS,
-        convert_to_tensor=True,
-        normalize_embeddings=True
-    )
+def get_model():
+    global model
+    if model is None:
+        model = SentenceTransformer('all-MiniLM-L6-v2')
+    return model
 
-# ------------------- NLP BOT RESPONSE (FIXED FINAL) -------------------
+def get_embeddings():
+    global question_embeddings
+    if question_embeddings is None and QUESTIONS:
+        m = get_model()
+        question_embeddings = m.encode(
+            QUESTIONS,
+            convert_to_tensor=True,
+            normalize_embeddings=True
+        )
+    return question_embeddings
+
+# ------------------- NLP BOT RESPONSE -------------------
 def nlp_bot_response(user_input: str) -> str:
     if not user_input or not user_input.strip():
         return "Please ask something about the university."
 
-    if not QUESTIONS or question_embeddings is None:
+    embeddings = get_embeddings()
+
+    if not QUESTIONS or embeddings is None:
         return None
 
     try:
         responses = []
         seen_answers = set()
+        m = get_model()
 
         questions = split_questions(user_input)
-
-        if not questions:
-            questions = [user_input]
 
         for q in questions:
             cleaned_input = clean_text(q)
 
-            embedding = model.encode(
+            embedding = m.encode(
                 cleaned_input,
                 convert_to_tensor=True,
                 normalize_embeddings=True
             )
 
-            cosine_scores = util.cos_sim(embedding, question_embeddings)
+            cosine_scores = util.cos_sim(embedding, embeddings)
             scores = cosine_scores[0].cpu().numpy()
 
             if len(scores) == 0:
@@ -143,7 +149,6 @@ def nlp_bot_response(user_input: str) -> str:
 
             answer = ANSWERS[best_idx]
 
-            # prevent duplicates
             if answer in seen_answers:
                 continue
 
@@ -159,10 +164,7 @@ def nlp_bot_response(user_input: str) -> str:
                 responses.append(f"Did you mean:\n👉 {answer}")
                 seen_answers.add(answer)
 
-        if responses:
-            return "\n\n".join(responses)
-
-        return None
+        return "\n\n".join(responses) if responses else None
 
     except Exception as e:
         print("NLP error:", e)
@@ -248,8 +250,9 @@ def process_user_message(user_msg: str) -> str:
                         "Please ask about admission, programs, eligibility, "
                         "fees, facilities, or scholarship.")
 
-    # ------------------- SESSION -------------------
-    session.setdefault("chat_messages", [])
+    # ------------------- SESSION SAFE FIX -------------------
+    if "chat_messages" not in session:
+        session["chat_messages"] = []
 
     session["chat_messages"].append({
         "user": user_msg,
@@ -261,14 +264,14 @@ def process_user_message(user_msg: str) -> str:
 
     session.modified = True
 
-    # ------------------- DATABASE -------------------
+    # ------------------- DATABASE (USER SAFE FIX) -------------------
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
 
         cursor.execute(
-            "INSERT INTO chat_history (username, user_message, bot_reply) VALUES (%s, %s, %s)",
-            (session.get("username", "guest"), user_msg, response)
+            "INSERT INTO chat_history (user_id, user_message, bot_reply) VALUES (%s, %s, %s)",
+            (session.get("user_id"), user_msg, response)
         )
 
         conn.commit()
@@ -298,10 +301,12 @@ def delete_chat_message_from_db(message_id: int) -> str:
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
+
         cursor.execute(
-            "DELETE FROM chat_history WHERE id = %s",
-            (message_id,)
+            "DELETE FROM chat_history WHERE id = %s AND user_id = %s",
+            (message_id, session.get("user_id"))
         )
+
         conn.commit()
 
         if cursor.rowcount > 0:
