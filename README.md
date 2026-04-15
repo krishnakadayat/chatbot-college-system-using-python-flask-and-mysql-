@@ -1,4 +1,10 @@
 # 🤖 AI-Powered Chatbot (Flask + NLP)
+##software
+✔ Python installed
+✔ VS Code installed
+✔ MySQL / XAMPP installed
+✔ Libraries installed
+✔ NLTK data downloaded
 
 ## 📌 Project Overview
 
